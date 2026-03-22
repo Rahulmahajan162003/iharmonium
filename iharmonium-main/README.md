@@ -2,11 +2,21 @@
 
 A web-based harmonium that uses your laptop's lid angle to control the bellows (air pressure). Press keys and push your laptop lid down to play!
 
+## Features
+
+- **Real-time Lid Angle Sensing**: On supported devices (MacBooks), reads actual lid angle for authentic bellows control
+- **Cross-Platform Compatibility**: Falls back to simulated bellows pumping on other platforms
+- **Web-Based Interface**: No installation required for the player interface
+- **Keyboard Controls**: Play notes using computer keyboard keys
+- **Chord Support**: Hold multiple keys for harmonious chords
+- **Realistic Physics**: Air leaks out over time, just like a real harmonium
+- **WebSocket Communication**: Real-time data transfer between Python backend and web frontend
+
 ## How It Works
 
 - **Keys**: Press keyboard keys (A, W, S, E, D, F, T, G, Y, H, U, J, K) to play notes
 - **Bellows**: Close your laptop lid (push down) to pump air and produce sound
-- **Lid Angle Sensor**: Python backend reads your laptop's lid angle in real-time
+- **Lid Angle Sensor**: Python backend reads your laptop's lid angle in real-time (or simulates on unsupported devices)
 - **WebSocket Connection**: Sends lid angle data to the HTML interface
 - **Sound Generation**: Web Audio API creates harmonium-like tones
 
@@ -14,28 +24,37 @@ A web-based harmonium that uses your laptop's lid angle to control the bellows (
 
 - Python 3.7+
 - `websockets` library
-- `pybooklid` library (for MacBook lid sensor)
-- A web browser (Chrome, Firefox, Safari, etc.)
-- A MacBook with a working lid angle sensor
+- A web browser with Web Audio API support (Chrome, Firefox, Safari, Edge, etc.)
+- **Optional**: `pybooklid` library for real lid angle sensing (MacBooks only)
 
 ## Installation
 
-1. **Set up a virtual environment** (recommended):
+1. **Clone or download the repository**
+
+2. **Set up a virtual environment** (recommended):
    ```bash
-   python3 -m venv venv
+   python -m venv venv
+   # On Windows:
+   venv\Scripts\activate
+   # On macOS/Linux:
    source venv/bin/activate
    ```
 
-2. **Install required Python packages**:
+3. **Install required Python packages**:
    ```bash
-   pip install websockets pybooklid
+   pip install websockets
+   ```
+
+4. **Optional - For MacBook lid sensing**:
+   ```bash
+   pip install pybooklid
    ```
 
 ## Running the Harmonium
 
 ### Step 1: Start the Backend
 
-First, run the Python WebSocket server that reads your laptop's lid angle:
+First, run the Python WebSocket server:
 
 ```bash
 python harmonium.py
@@ -50,11 +69,9 @@ Bridge active! Waiting for your web app on port 8765...
 
 Open `harmonium.html` in your web browser:
 
-```bash
-open harmonium.html
-```
-
-Or simply double-click the `harmonium.html` file.
+- Double-click the file, or
+- Drag it into your browser, or
+- Use a local server (recommended for some browsers)
 
 ### Step 3: Activate Audio
 
@@ -95,6 +112,7 @@ U = A#
 - Air slowly leaks out, just like a real harmonium
 - Hold multiple keys simultaneously for chords
 - The lid angle is displayed at the top of the interface
+- On devices without lid sensors, the simulation provides a rhythmic pumping motion
 
 ## Troubleshooting
 
@@ -109,15 +127,19 @@ U = A#
 - Look for "Web App connected!" message in the Python terminal
 
 **Lid angle not changing?**
-- Verify `pybooklid` is properly installed
-- Check that your MacBook's lid sensor is working
-- Try closing and opening the lid to see if values change
+- On MacBooks: Verify `pybooklid` is properly installed and your lid sensor works
+- On other platforms: This is normal - the app uses simulated data
+- Try closing and opening the lid (on supported devices) to see if values change
 
 ## Stopping
 
 - **Backend**: Press `Ctrl+C` in the terminal running `harmonium.py`
 - **Frontend**: Simply close the browser tab
 
+## Contributing
+
+Feel free to submit issues, feature requests, or pull requests!
+
 ## License
 
-Feel free to use and modify this project as you wish!
+This project is open source. Feel free to use and modify as you wish!
